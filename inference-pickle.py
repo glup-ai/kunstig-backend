@@ -1,5 +1,6 @@
 import pickle
 
+# Replace with path to the trained model you use
 model_path = './trained_models/network-snapshot-010200.pkl'
 
 def load_model():

@@ -1,6 +1,5 @@
 Flask==2.0.1
-torch
-torch-utils
-torchvision
-pickle5
 numpy
+requests
+torch
+scipy

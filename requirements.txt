@@ -2,4 +2,6 @@ Flask==2.0.1
 numpy
 requests
 torch
+torchvision
 scipy
+click

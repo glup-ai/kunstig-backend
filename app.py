@@ -1,10 +1,13 @@
-from flask import Flask, request, Response
+from flask import Flask, send_file
+import os, random
 
 app = Flask(__name__)
 
-@app.route("/", methods = ["POST"])
+@app.route("/generate", methods = ["GET"])
 def main():
-    name = request.args.get("name")
-    if not name:
-        return Response("Please input your name.", status=400)
-    return Response(f"Hello, {name}. This Flask application executed successfully!", status=200)
+    seed = random.randint(1, 1000)
+    trained_model = './trained_models/network-snapshot-010200.pkl'
+    os.system(f'python generate.py --outdir=out/{seed} --trunc=1 --seeds={seed} \
+    --network={trained_model}')
+    image = random.choice(os.listdir(f'./out/{seed}'))
+    return send_file(f'./out/{seed}/{image}', mimetype='image/png')

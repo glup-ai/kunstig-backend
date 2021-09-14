@@ -167,3 +167,6 @@ cython_debug/
 
 # Ignore trained models - too big to push
 */*.pkl
+
+# Ignore generated images
+out/*

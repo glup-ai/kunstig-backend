@@ -16,3 +16,6 @@ Mac / Linux <br/>
 
 #### Install requirements
 `$ pip install -r requirements.txt`
+
+#### Run app locally
+`$ flask run`

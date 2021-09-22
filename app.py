@@ -7,7 +7,7 @@ app = Flask(__name__)
 def main():
     seed = random.randint(1, 1000)
     # TODO: Find a way to do this less costly
-    trained_model = './trained_models/network-snapshot-010200.pkl'
+    trained_model = './trained_models/munch.pkl'
     os.system(f'python generate.py --outdir=out/{seed} --trunc=1 --seeds={seed} \
     --network={trained_model}')
     # TODO: Return image directly, don't store it

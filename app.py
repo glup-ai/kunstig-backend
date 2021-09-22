@@ -1,15 +1,10 @@
-from flask import Flask, send_file
-import os, random
+from flask import Flask, Response
+from generate import generate_images2
 
 app = Flask(__name__)
 
 @app.route("/munch", methods = ["GET"])
 def main():
-    seed = random.randint(1, 1000)
-    # TODO: Find a way to do this less costly
     trained_model = './trained_models/munch.pkl'
-    os.system(f'python generate.py --outdir=out/{seed} --trunc=1 --seeds={seed} \
-    --network={trained_model}')
-    # TODO: Return image directly, don't store it
-    image = random.choice(os.listdir(f'./out/{seed}'))
-    return send_file(f'./out/{seed}/{image}', mimetype='image/png')
+    img = generate_images2(network_pkl=trained_model)
+    return Response(img, status=200, mimetype="image/png")

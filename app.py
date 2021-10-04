@@ -5,6 +5,6 @@ app = Flask(__name__)
 
 @app.route("/munch", methods = ["GET"])
 def main():
-    trained_model = './trained_models/munch.pkl'
+    trained_model = 'https://glupaisa.blob.core.windows.net/glup/munch.pkl'
     img = generate_images(network_pkl=trained_model)
     return Response(img, status=200, mimetype="image/png")

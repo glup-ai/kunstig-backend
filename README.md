@@ -8,21 +8,31 @@ This API is based on the repo [glup-ml-deployment-tutorial](https://github.com/g
 
 ## Setup
 #### Create a new virtual environment
-`$ python -m venv .venv`
+```
+python -m venv .venv
+```
 
 #### Activate the environment
 Windows <br/>
-`$ .venv/Scripts/activate`
+```
+.venv/Scripts/activate
+```
 
 Mac / Linux <br/>
-`$ source .venv/bin/activate`
+```
+source .venv/bin/activate
+```
 
 #### Install requirements
-`$ pip install -r requirements.txt`
+```
+pip install -r requirements.txt
+```
 
 <a name="run-app"></a>
 #### Run app locally
-`$ flask run`
+```
+flask run
+```
 
 #### Get images from Kunstig
 Check out the beautiful art Kunstig produces by calling on of our GET methods you can find in [app.py](https://github.com/glup-ai/kunstig-backend/blob/master/app.py):

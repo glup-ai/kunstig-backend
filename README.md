@@ -28,4 +28,5 @@ Mac / Linux <br/>
 Check out the beautiful art Kunstig produces by calling on of our GET methods you can find in [app.py](https://github.com/glup-ai/kunstig-backend/blob/master/app.py):
 - `running-server/munch`
 - `running-server/portrait`
+
 _get the running server address from the previous step: [Run app locally](#run-app)_

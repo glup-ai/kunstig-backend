@@ -6,9 +6,10 @@ app = Flask(__name__)
 
 device = torch.device('cpu')
 
-munch = load_model('https://glupaisa.blob.core.windows.net/glup/munch.pkl',
-                   device)
-portrait = load_model(
+munch_model = load_model(
+    'https://glupaisa.blob.core.windows.net/glup/munch.pkl', device)
+
+portrait_model = load_model(
     'https://glupaisa.blob.core.windows.net/glup/portraits18.pkl', device)
 
 
@@ -19,12 +20,12 @@ def warmup():
 
 
 @app.route("/munch", methods=["GET"])
-def main():
-    img = generate_images(munch, device)
+def munch():
+    img = generate_images(munch_model, device)
     return Response(img, status=200, mimetype="image/png")
 
 
 @app.route("/portrait", methods=["GET"])
 def portrait():
-    img = generate_images(portrait, device)
+    img = generate_images(portrait_model, device)
     return Response(img, status=200, mimetype="image/png")

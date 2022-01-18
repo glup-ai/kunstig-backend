@@ -1,31 +1,27 @@
 from email.mime import image
 from pyexpat import model
 from flask import Flask, Response, jsonify
-from generate import generate_images, load_model
+from generate import generate_images, load_model, load_models
 import torch
+import cms
+import threading
+
 from flask import request
 
 app = Flask(__name__)
 
 device = torch.device('cpu')
 
-models_dict = {
-    "munch": {
-        "displayName": "Munch",
-        "url": "https://glupaisa.blob.core.windows.net/glup/munch.pkl",
-        "model": None,
-        "images": ["test/test_image1.jpg", "test/test_image2.jpg"]
-    },
-    "portrait": {
-        "displayName": "Portrait",
-        "url": "https://glupaisa.blob.core.windows.net/glup/portraits18.pkl",
-        "model": None,
-        "images": ["test/test_image1.jpg", "test/test_image2.jpg"]
-    },
-}
+models_dict = cms.get_models()
 
-for key in models_dict:
-    models_dict[key]["model"] = load_model(models_dict[key]["url"], device)
+
+# Check CMS each 5 min for new models
+def load():
+    load_models(models_dict, device)
+    threading.Timer(300, load).start()
+
+
+load()
 
 
 @app.route("/", methods=["GET"])

@@ -32,11 +32,16 @@ def generate_images(G, device, input_string):
 
 
 def load_model(url, device):
-
     print('Loading networks from "%s"...' % url)
     with dnnlib.util.open_url(url) as f:
         G = legacy.load_network_pkl(f)['G_ema'].to(device)
         return G
+
+
+def load_models(models, device):
+    for key in models:
+        if models[key]["model"] is None:
+            models[key]["model"] = load_model(models[key]["url"], device)
 
 
 def generate_seed(input_string):

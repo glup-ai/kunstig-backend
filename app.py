@@ -1,6 +1,7 @@
 from email.mime import image
 from pyexpat import model
 from flask import Flask, Response, jsonify
+from flask_cors import CORS
 from generate import generate_images, load_model, load_models
 import torch
 import cms
@@ -9,6 +10,7 @@ import threading
 from flask import request
 
 app = Flask(__name__)
+CORS(app)
 
 device = torch.device('cpu')
 

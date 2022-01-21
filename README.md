@@ -2,7 +2,7 @@
 
 This repository holds Kunstig backend, a webapp that allows you to fetch images live from an AI model trained to create paintings in different art styles.
 
-This API is based on the repo [glup-ml-deployment-tutorial](https://github.com/glup-ai/glup-ml-deployment-tutorial/tree/master/Tutorial), and uses the deployment solution: Hosted app service using the Flask framework.
+This API is based on the repo [glup-ml-deployment-tutorial](https://github.com/glup-ai/glup-ml-deployment-tutorial/tree/master/Tutorial).
 
 ## Prerequisites
 

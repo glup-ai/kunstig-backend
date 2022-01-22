@@ -1,6 +1,6 @@
 # Kunstig (API)
 
-This repository holds Kunstig backend, a webapp that allows you to fetch images live from an AI model trained to create paintings in different art styles.
+This repository holds the backend for Kunstig, a webapp that allows you to fetch images live from an AI model trained to create paintings in different art styles.
 
 This API is based on the repo [glup-ml-deployment-tutorial](https://github.com/glup-ai/glup-ml-deployment-tutorial/tree/master/Tutorial).
 

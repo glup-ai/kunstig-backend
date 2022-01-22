@@ -1,10 +1,10 @@
 from email.mime import image
-from pyexpat import model
 from flask import Flask, Response, jsonify
-from generate import generate_images, load_model, load_models
+import gan
 import torch
 import cms
-import threading
+from apscheduler.schedulers.background import BackgroundScheduler
+import atexit
 
 from flask import request
 
@@ -12,14 +12,22 @@ app = Flask(__name__)
 
 device = torch.device('cpu')
 
-models_dict = cms.get_models()
+models_info = {}
+loaded_models = {}
 
 
 # Check CMS each 5 min for new models
 def load():
-    load_models(models_dict, device)
-    threading.Timer(300, load).start()
+    cms.fetch_models(models_info)
+    gan.load_models(models_info, loaded_models, device)
 
+
+scheduler = BackgroundScheduler()
+scheduler.add_job(func=load, trigger="interval", seconds=300)
+scheduler.start()
+
+# Shut down the scheduler when exiting the app
+atexit.register(lambda: scheduler.shutdown())
 
 load()
 
@@ -34,7 +42,9 @@ def models():
 
     models = []
 
-    for key, value in models_dict.items():
+    print(models_info.items())
+
+    for key, value in models_info.items():
         models.append({"name": key, "displayName": value["displayName"]})
 
     response = jsonify({"models": models})
@@ -51,12 +61,12 @@ def model():
 
     model_name = json_data.get("model")
 
-    if not model_name or not model_name in models_dict:
+    if not model_name or not model_name in models_info:
         return Response("Provided model name not found", status=400)
 
     return jsonify({
-        "displayName": models_dict[model_name].get("displayName"),
-        "images": models_dict[model_name].get("images") or []
+        "displayName": models_info[model_name].get("displayName"),
+        "images": models_info[model_name].get("images") or []
     })
 
 
@@ -69,7 +79,7 @@ def generate():
 
     model_name = json_data.get("model")
 
-    if not model_name or not model_name in models_dict:
+    if not model_name or not model_name in models_info:
         return Response("Provided model name not found", status=400)
 
     input_string = None
@@ -77,7 +87,7 @@ def generate():
     if "inputString" in json_data:
         input_string = json_data.get("inputString")
 
-    img = generate_images(models_dict[model_name].get("model"), device,
-                          input_string)
+    img = gan.generate_images(loaded_models.get(model_name), device,
+                              input_string)
 
     return Response(img, status=200, mimetype="image/png")

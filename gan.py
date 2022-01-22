@@ -20,7 +20,8 @@ def generate_images(G, device, input_string):
     else:
         seed = random.randint(1, seed_size_limit)
 
-    z = torch.from_numpy(np.random.RandomState(seed).randn(1, G.z_dim)).to(device)
+    z = torch.from_numpy(np.random.RandomState(seed).randn(1,
+                                                           G.z_dim)).to(device)
 
     img = G(z, label, truncation_psi=1, noise_mode='const', force_fp32=True)
     img = (img.permute(0, 2, 3, 1) * 127.5 + 128).clamp(0, 255).to(torch.uint8)
@@ -38,10 +39,10 @@ def load_model(url, device):
         return G
 
 
-def load_models(models, device):
-    for key in models:
-        if models[key]["model"] is None:
-            models[key]["model"] = load_model(models[key]["url"], device)
+def load_models(models_info, loaded_models, device):
+    for key in models_info:
+        if not key in loaded_models:
+            loaded_models[key] = load_model(models_info[key]["url"], device)
 
 
 def generate_seed(input_string, seed_size_limit):

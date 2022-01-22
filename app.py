@@ -11,10 +11,6 @@ from flask import request
 
 app = Flask(__name__)
 
-cors = CORS(app)
-
-app.config['CORS_HEADERS'] = 'Content-Type'
-
 device = torch.device('cpu')
 
 models_dict = cms.get_models()

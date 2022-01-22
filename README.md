@@ -95,6 +95,26 @@ _Response example_:
 
 ---
 
+#### GET: /images
+
+Returns the complete list of images in random order.
+
+_Response example_:
+
+```
+{
+    "images": [
+        "https://cdn.sanity.io/images/o9upvhes/production/395887b9ffe5328a4984d4d9cdd9825542bf04d6-1024x1024.png",
+        "https://cdn.sanity.io/images/o9upvhes/production/5bdba26e9d0c7aa97b582d34400aa5979ade28a3-1024x1024.png",
+        ...
+    ]
+}
+```
+
+---
+
+---
+
 #### POST: /generate
 
 Returns a generated image. Use the optional parameter 'inputString' to seed the image generation.

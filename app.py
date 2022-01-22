@@ -5,6 +5,7 @@ import torch
 import cms
 from apscheduler.schedulers.background import BackgroundScheduler
 import atexit
+import random
 
 from flask import request
 
@@ -42,10 +43,12 @@ def models():
 
     models = []
 
-    print(models_info.items())
-
     for key, value in models_info.items():
-        models.append({"name": key, "displayName": value["displayName"]})
+        models.append({
+            "name": key,
+            "displayName": value["displayName"],
+            "description": value.get("description") or ""
+        })
 
     response = jsonify({"models": models})
 
@@ -65,9 +68,27 @@ def model():
         return Response("Provided model name not found", status=400)
 
     return jsonify({
-        "displayName": models_info[model_name].get("displayName"),
-        "images": models_info[model_name].get("images") or []
+        "displayName":
+        models_info[model_name].get("displayName"),
+        "images":
+        models_info[model_name].get("images") or [],
+        "description":
+        models_info[model_name].get("description") or '',
     })
+
+
+@app.route("/images", methods=["GET"])
+def images():
+    images = []
+
+    for key, value in models_info.items():
+        images.extend(value.get("images" or []))
+
+    random.shuffle(images)
+
+    response = jsonify({"images": images})
+
+    return response
 
 
 @app.route("/generate", methods=["POST"])

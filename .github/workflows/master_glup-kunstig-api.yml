@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'glup-kunstig-api'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A22683A3BC4A4D70828C79236CBED262 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_200EE817DFC547ABB375F2B6CFE0BDFC }}

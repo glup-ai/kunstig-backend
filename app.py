@@ -49,14 +49,14 @@ def model():
     if not json_data or not "model" in json_data:
         return Response("Missing payload", status=400)
 
-    model_name = json_data["model"]
+    model_name = json_data.get("model")
 
     if not model_name or not model_name in models_dict:
         return Response("Provided model name not found", status=400)
 
     return jsonify({
-        "displayName": models_dict[model_name]["displayName"],
-        "images": models_dict[model_name]["images"]
+        "displayName": models_dict[model_name].get("displayName"),
+        "images": models_dict[model_name].get("images") or []
     })
 
 
@@ -67,7 +67,7 @@ def generate():
     if not json_data or not "model" in json_data:
         return Response("Missing payload", status=400)
 
-    model_name = json_data["model"]
+    model_name = json_data.get("model")
 
     if not model_name or not model_name in models_dict:
         return Response("Provided model name not found", status=400)
@@ -75,9 +75,9 @@ def generate():
     input_string = None
 
     if "inputString" in json_data:
-        input_string = json_data["inputString"]
+        input_string = json_data.get("inputString")
 
-    img = generate_images(models_dict[model_name]["model"], device,
+    img = generate_images(models_dict[model_name].get("model"), device,
                           input_string)
 
     return Response(img, status=200, mimetype="image/png")

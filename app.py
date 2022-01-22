@@ -1,7 +1,7 @@
 from email.mime import image
 from pyexpat import model
 from flask import Flask, Response, jsonify
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from generate import generate_images, load_model, load_models
 import torch
 import cms
@@ -10,7 +10,10 @@ import threading
 from flask import request
 
 app = Flask(__name__)
-CORS(app)
+
+cors = CORS(app)
+
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 device = torch.device('cpu')
 
@@ -39,7 +42,9 @@ def models():
     for key, value in models_dict.items():
         models.append({"name": key, "displayName": value["displayName"]})
 
-    return jsonify({"models": models})
+    response = jsonify({"models": models})
+
+    return response
 
 
 @app.route("/model", methods=["POST"])

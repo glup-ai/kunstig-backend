@@ -24,7 +24,7 @@ def load():
 
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(func=load, trigger="interval", seconds=300)
+scheduler.add_job(func=load, trigger="interval", seconds=60)
 scheduler.start()
 
 # Shut down the scheduler when exiting the app
@@ -67,11 +67,15 @@ def model():
     if not model_name or not model_name in models_info:
         return Response("Provided model name not found", status=400)
 
+    images = models_info[model_name].get("images") or []
+
+    random.shuffle(images)
+
     return jsonify({
         "displayName":
         models_info[model_name].get("displayName"),
         "images":
-        models_info[model_name].get("images") or [],
+        images,
         "description":
         models_info[model_name].get("description") or '',
     })

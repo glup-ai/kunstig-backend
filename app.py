@@ -82,7 +82,7 @@ def images():
     images = []
 
     for key, value in models_info.items():
-        images.extend(value.get("images" or []))
+        images.extend(value.get("images") or [])
 
     random.shuffle(images)
 
